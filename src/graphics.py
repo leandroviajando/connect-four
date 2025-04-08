@@ -8,7 +8,7 @@ import pygame
 from src.game import COLUMNS, ROWS, TITLE, Player
 
 PROJECT_ROOT_PATH: Final = pathlib.Path(__file__).parent.parent
-WINNING_IMAGE_PATH: Final = PROJECT_ROOT_PATH / "assets" / "winner.png"
+WINNER_IMAGE_PATH: Final = PROJECT_ROOT_PATH / "assets" / "winner.png"
 
 SLOT: Final = 100
 WIDTH: Final = COLUMNS * SLOT
@@ -18,7 +18,7 @@ SIZE: Final = (WIDTH, HEIGHT)
 RED: Final = (255, 0, 0)
 GREEN: Final = (0, 255, 0)
 BLUE: Final = (0, 0, 255)
-GREY: Final = (128, 128, 128)
+WHITE: Final = (255, 255, 255)
 OFFSET: Final = 100
 RADIUS: Final = int(SLOT / 2 - 5)
 
@@ -39,7 +39,7 @@ def column(event: pygame.event.Event) -> int:
 
 
 def draw_board(window: pygame.Surface, board: np.ndarray) -> None:
-    pygame.draw.rect(window, GREY, (0, 0, WIDTH, SLOT))
+    pygame.draw.rect(window, WHITE, (0, 0, WIDTH, SLOT))
     board = board[::-1, :]
 
     for col in range(COLUMNS):
@@ -48,7 +48,7 @@ def draw_board(window: pygame.Surface, board: np.ndarray) -> None:
             pygame.draw.rect(window, BLUE, rect)
 
             slot = (int(col * SLOT + SLOT / 2), int(row * SLOT + OFFSET + SLOT / 2))
-            pygame.draw.circle(window, GREY, slot, RADIUS)
+            pygame.draw.circle(window, WHITE, slot, RADIUS)
 
             if board[row][col] == 1:
                 pygame.draw.circle(window, RED, slot, RADIUS)
@@ -61,7 +61,7 @@ def draw_board(window: pygame.Surface, board: np.ndarray) -> None:
 def draw_hovering_piece(
     window: pygame.Surface, event: pygame.event.Event, player: Player
 ) -> None:
-    pygame.draw.rect(window, GREY, (0, 0, WIDTH, SLOT))
+    pygame.draw.rect(window, WHITE, (0, 0, WIDTH, SLOT))
     posx = event.pos[0]
     piece = (posx, int(SLOT / 2))
 
@@ -79,7 +79,7 @@ def draw_winning_message(
     player: Player,
 ) -> None:
     font = pygame.font.SysFont("Comic Sans MS", size=33, bold=True)
-    image = pygame.image.load(WINNING_IMAGE_PATH)
+    image = pygame.image.load(WINNER_IMAGE_PATH)
     label = font.render(winning_message, True, RED if player == 1 else GREEN)
 
     window.blit(image, (120, 220))
